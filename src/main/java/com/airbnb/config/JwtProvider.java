@@ -16,7 +16,7 @@ public class JwtProvider {
 
     private static final SecretKey key = Keys.hmacShaKeyFor(JwtConstant.SECRET_KEY.getBytes());
 
-    public static String generateToken(Authentication auth){
+    public static String generateToken(Authentication auth) {
 
         Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
 
@@ -24,14 +24,14 @@ public class JwtProvider {
 
         return Jwts.builder()
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime()+86400000))
-                .claim("username",auth.getName())
-                .claim("authorities",roles)
+                .setExpiration(new Date(new Date().getTime() + 86400000))
+                .claim("username", auth.getName())
+                .claim("authorities", roles)
                 .signWith(key)
                 .compact();
     }
 
-    public static String getUsernameFromToken(String token){
+    public static String getUsernameFromToken(String token) {
 
         token = token.substring(7);
 
@@ -44,9 +44,9 @@ public class JwtProvider {
 
         Set<String> auth = new HashSet<>();
 
-        for (GrantedAuthority ga:authorities){
+        for (GrantedAuthority ga : authorities) {
             auth.add(ga.getAuthority());
         }
-        return String.join(",",auth);
+        return String.join(",", auth);
     }
 }

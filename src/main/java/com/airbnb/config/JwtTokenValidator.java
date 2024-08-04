@@ -25,7 +25,7 @@ public class JwtTokenValidator extends OncePerRequestFilter {
 
         String jwt = request.getHeader(JwtConstant.JWT_HEADER);
 
-        if (jwt!=null){
+        if (jwt != null) {
             jwt = jwt.substring(7);
 
             try {
@@ -39,15 +39,15 @@ public class JwtTokenValidator extends OncePerRequestFilter {
 
                 List<GrantedAuthority> authorityList = AuthorityUtils.commaSeparatedStringToAuthorityList(authorities);
 
-                Authentication auth = new UsernamePasswordAuthenticationToken(email,null,authorityList);
+                Authentication auth = new UsernamePasswordAuthenticationToken(email, null, authorityList);
 
                 SecurityContextHolder.getContext().setAuthentication(auth);
 
-            }catch (Exception e){
+            } catch (Exception e) {
                 throw new RuntimeException("invalid token....!");
             }
         }
 
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
     }
 }
